@@ -1,0 +1,22 @@
+<h2>Création incoterm</h2>
+<form method="post" action="{% url 'appGestionStock:creer_incoterms' %}">
+    {% csrf_token %}
+    <label for="nom">Nom:</label>
+    <input type="text" id="nom" name="nom" required>
+    
+    <label for="definition">definition:</label>
+    <input type="text" id="definition" name="definition" required>
+    
+    <button type="submit">Créer Incoterm</button>
+</form>
+
+{% if message %}
+    <p>{{ message }}</p>
+    {% if incoterm %}
+        <p>Incoterm créé :</p>
+        <ul>
+            <li>Nom: {{ incoterm.nom }}</li>
+            <li>Définition: {{ incoterm.definition }}</li>
+        </ul>
+    {% endif %}
+{% endif %}

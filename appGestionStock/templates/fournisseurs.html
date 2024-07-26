@@ -1,0 +1,41 @@
+<h2>Création fournisseur</h2>
+<form method="post" action="{% url 'appGestionStock:creer_fournisseur' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    
+    <button type="submit">Créer Fournisseur</button>
+</form>
+
+{% if message %}
+    <p>{{ message }}</p>
+    {% if fournisseur %}
+    <p>Fournisseur :</p>
+    <ul>
+        <li>Nom fournisseur: {{ fournisseur.nom_fournisseur }}</li>
+        <li>Adresse: {{ fournisseur.adresse }}</li>
+        <li>Code postal: {{ fournisseur.code_postal }}</li>
+        <li>Ville: {{ fournisseur.ville }}</li>
+        <li>Civilité: {{ fournisseur.civilite }}</li>
+        <li>Nom: {{ fournisseur.nom }}</li>
+        <li>Prénom: {{ fournisseur.prenom }}</li>
+        <li>Email: {{ fournisseur.email }}</li>
+        <li>Téléphone mobile: {{ fournisseur.telephone_mobile }}</li>
+        <li>Téléphone fixe: {{ fournisseur.telephone_fixe }}</li>
+    </ul>
+    {% endif %}
+{% endif %}
+
+
+
+{% if message %}
+    <p>{{ message }}</p>
+{% endif %}
+{% if errors %}
+    <p>Erreurs :</p>
+    <ul>
+        {% for field, error in errors.items %}
+            <li>{{ field }}: {{ error }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recherche de Produits</title>
+</head>
+<body>
+    <h1>Recherche de Produits</h1>
+    
+    <form method="get" action="{% url 'appGestionStock:recherche_produit' %}">
+        <!-- recherche de produit -->
+        {% csrf_token %}   
+
+        <label for="designation">Recherche par désignation:</label>
+        <input type="text" id="designation" name="designation">
+        
+        <label for="gamme">Recherche par gamme:</label>
+        <input type="text" id="gamme" name="gamme">             
+
+        <label for="fournisseur">Recherche par fournisseur:</label> 
+        <select id="fournisseur" name="fournisseur">
+            <option value="">Sélectionner un fournisseur</option>
+            {% for fournisseur in fournisseurs %}
+                <option value="{{ fournisseur.nom_fournisseur }}">{{ fournisseur.nom_fournisseur }}</option>
+            {% endfor %}
+        </select>
+        
+        <button type="submit">Rechercher</button>
+    </form>
+
+    <h2>Résultats de la recherche</h2>
+    {% if produits_par_designation or produits_par_fournisseur or produits_par_gamme %}
+    <ul>
+        {% for produit in produits_par_designation %}
+            <li>{{ produit.designation }} - {{ produit.code_article }}</li>
+        {% endfor %}
+
+        {% for produit_gamme in produits_par_gamme %}
+            <li>{{ produit_gamme.gamme }} - {{ produit_gamme.gamme }}</li>
+        {% endfor %}
+
+        {% for produit_fss in produits_par_fournisseur %}
+            <li>{{ produit_fss.fournisseur_nom }}</li>
+        {% endfor %}
+    </ul>
+    {% else %}
+        <p>Aucun produit trouvé par désignation.</p>
+    {% endif %}
+</body>
+</html>

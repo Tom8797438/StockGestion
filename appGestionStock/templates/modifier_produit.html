@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifier Produit</title>
+</head>
+<body>
+    <h1>Modifier Produit</h1>
+
+    <!-- Formulaire de recherche -->
+    <form method="get" action="{% url 'appGestionStock:recherche_produit' %}">
+        {% csrf_token %}
+        <label for="designation">Recherche par désignation:</label>
+        <input type="text" id="designation" name="designation">
+        
+        <label for="gamme">Recherche par gamme:</label>
+        <input type="text" id="gamme" name="gamme">
+
+        <label for="fournisseur">Recherche par fournisseur:</label>
+        <select id="fournisseur" name="fournisseur">
+            <option value="">Sélectionner un fournisseur</option>
+            {% for fournisseur in fournisseurs %}
+                <option value="{{ fournisseur.nom_fournisseur }}">{{ fournisseur.nom_fournisseur }}</option>
+            {% endfor %}
+        </select>
+        
+        <button type="submit">Rechercher</button>
+    </form>
+
+    <!-- Résultats de la recherche -->
+    <h2>Résultats de la recherche</h2>
+    {% if produits_par_designation or produits_par_fournisseur or produits_par_gamme %}
+        <ul>
+        {% for produit in produits_par_designation %}
+            <li><a href="{% url 'appGestionStock:modifier_produit' produit.id %}">{{ produit.designation }} - {{ produit.code_article }}</a></li>
+        {% endfor %}
+
+        {% for produit in produits_par_gamme %}
+            <li><a href="{% url 'appGestionStock:modifier_produit' produit.id %}">{{ produit.designation }} - {{ produit.code_article }}</a></li>
+        {% endfor %}
+
+        {% for produit in produits_par_fournisseur %}
+            <li><a href="{% url 'appGestionStock:modifier_produit' produit.id %}">{{ produit.designation }} - {{ produit.code_article }}</a></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>Aucun produit trouvé.</p>
+    {% endif %}
+
+    <!-- Formulaire de modification -->
+    {% if produit %}
+        <h2>Modifier le produit</h2>
+        <form method="post" action="{% url 'appGestionStock:modifier_produit' produit.id %}">
+            {% csrf_token %}
+            <label for="code_barre">Code Barre:</label>
+            <input type="text" id="code_barre" name="code_barre" value="{{ produit.code_barre }}" required><br>
+
+            <label for="code_article">Code Article:</label>
+            <input type="text" id="code_article" name="code_article" value="{{ produit.code_article }}" required><br>
+
+            <label for="designation">Désignation:</label>
+            <input type="text" id="designation" name="designation" value="{{ produit.designation }}" required><br>
+
+            <label for="gamme">Gamme:</label>
+            <input type="text" id="gamme" name="gamme" value="{{ produit.gamme }}" required><br>
+
+            <label for="prix">Prix:</label>
+            <input type="text" id="prix" name="prix" value="{{ produit.prix }}" required><br>
+
+            <label for="dim">Dimensions:</label>
+            <input type="text" id="dim" name="dim" value="{{ produit.dim }}" required><br>
+
+            <label for="classe">Classe:</label>
+            <input type="text" id="classe" name="classe" value="{{ produit.classe }}" required><br>
+
+            <label for="mention">Mention:</label>
+            <input type="text" id="mention" name="mention" value="{{ produit.mention }}" required><br>
+
+            <label for="fournisseur">Fournisseur:</label>
+            <select id="fournisseur" name="fournisseur">
+                {% for fournisseur in fournisseurs %}
+                    <option value="{{ fournisseur.nom_fournisseur }}" {% if fournisseur == produit.fournisseur %}selected{% endif %}>
+                        {{ fournisseur.nom_fournisseur }}
+                    </option>
+                {% endfor %}
+            </select><br>
+
+            <button type="submit">Modifier le produit</button>
+        </form>
+
+        {% if message %}
+            <p>{{ message }}</p>
+        {% endif %}
+
+        {% if error %}
+            <p>{{ error }}</p>
+        {% endif %}
+    {% endif %}
+</body>
+</html>

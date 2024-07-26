@@ -1,0 +1,23 @@
+<!-- formualire de modification de l'Incoterm -->
+<h2>Modifier Incoterm</h2>
+<form method="post" action="{% url 'appGestionStock:modifier_incoterm' %}">
+    {% csrf_token %}
+    <!-- Sélectionnez l'Incoterm à modifier dans une liste déroulante -->
+    <label for="incoterms">Sélectionner un incoterm :</label>
+    <select id="incoterms" name="incoterms" required>
+        <option value="">Sélectionner un incoterm</option>
+        {% for incoterm in incoterms %}
+            <option value="{{ incoterm.id }}">{{ incoterm.nom }} - {{ incoterm.definition }}</option>
+        {% endfor %}
+    </select>
+
+    <!-- Affichez les champs de l'Incoterm sélectionné -->
+    {{ form.as_p }}
+
+    <!-- Bouton de soumission -->
+    <button type="submit">Modifier</button>
+</form>
+
+{% if message %}
+    <p>{{ message }}</p>
+{% endif %}

@@ -1,0 +1,48 @@
+<h2>Création produit</h2>
+<form method="post" action="{% url 'appGestionStock:creer_produit' %}">
+    {% csrf_token %}
+    <label for="code_barre">Code Barre:</label>
+    <input type="text" id="code_barre" name="code_barre" required>
+    
+    <label for="code_article">Code Article:</label>
+    <input type="text" id="code_article" name="code_article" required>
+    
+    <label for="designation">Désignation:</label>
+    <input type="text" id="designation" name="designation" required>
+    
+    <label for="gamme">Gamme:</label>
+    <input type="text" id="gamme" name="gamme" required>
+    
+    <label for="prix">Prix:</label>
+    <input type="number" id="prix" name="prix" step="0.01" required>
+    
+    <label for="dim">Dimensions:</label>
+    <input type="text" id="dim" name="dim" required>
+    
+    <label for="classe">Classe:</label>
+    <input type="text" id="classe" name="classe" required>
+    
+    <label for="mention">Mention:</label>
+    <input type="text" id="mention" name="mention" required>
+    
+    <label for="fournisseur">Fournisseur:</label>
+    <input type="text" id="fournisseur" name="fournisseur" required>
+    
+    <button type="submit">Créer Produit</button>
+</form>
+
+{% if message %}
+    <p>{{ message }}</p>
+    <p>Produit créé :</p>
+    <ul>
+        <li>Code Barre: {{ produit.code_barre }}</li>
+        <li>Code Article: {{ produit.code_article }}</li>
+        <li>Désignation: {{ produit.designation }}</li>
+        <li>Gamme: {{ produit.gamme }}</li>
+        <li>Prix: {{ produit.prix }}</li>
+        <li>Dimensions: {{ produit.dim }}</li>
+        <li>Classe: {{ produit.classe }}</li>
+        <li>Mention: {{ produit.mention }}</li>
+        <li>Fournisseur: {{ produit.fournisseur }}</li>
+    </ul>
+{% endif %}

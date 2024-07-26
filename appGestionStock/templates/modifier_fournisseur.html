@@ -1,0 +1,25 @@
+<h2>Modifier fournisseur</h2>
+<!-- Formulaire pour sélectionner le fournisseur -->
+<form method="post" action="{% url 'appGestionStock:modifier_fournisseur' %}" id="fournisseurSelectionForm">
+    {% csrf_token %}
+    <label for="fournisseur">Sélectionner un fournisseur :</label>
+    <select id="fournisseur" name="fournisseur" required onchange="document.getElementById('fournisseurSelectionForm').submit();">
+        <option value="">Sélectionner un fournisseur</option>
+        {% for fournisseur in fournisseurs %}
+            <option value="{{ fournisseur.id }}" {% if selected_fournisseur and selected_fournisseur.id == fournisseurs.id %}selected{% endif %}>
+                {{ fournisseur.nom_fournisseur }} 
+            </option>
+        {% endfor %}
+    </select>
+</form>
+
+<!-- Formulaire pour modifier le fournisseur sélectionné -->
+<form method="post" action="{% url 'appGestionStock:modifier_fournisseur' %}" id="fournisseurForm">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Modifier Fournisseur</button>
+</form>
+
+{% if message %}
+    <p>{{ message }}</p>
+{% endif %}
