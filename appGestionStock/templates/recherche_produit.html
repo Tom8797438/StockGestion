@@ -41,7 +41,7 @@
         {% endfor %}
 
         {% for produit_fss in produits_par_fournisseur %}
-            <li>{{ produit_fss.fournisseur_nom }}</li>
+            <li>{{ produit_fss.designation }} - {{ produit_fss.prix }}</li>
         {% endfor %}
     </ul>
     {% else %}

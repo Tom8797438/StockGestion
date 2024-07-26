@@ -111,10 +111,10 @@ def modifier_incoterm(request):
             else:
                 context['message'] = "Erreur lors de la modification de l'incoterm"
         else:
-            form = IncotermForm()  # Ajoutez cette ligne pour éviter l'erreur si incoterm_id n'est pas fourni
+            form = IncotermForm()  # éviter l'erreur si incoterm_id n'est pas fourni
             context['message'] = "Veuillez sélectionner un incoterm"
     else:
-        form = IncotermForm()  # Ajoutez cette ligne pour initialiser le formulaire en cas de GET
+        form = IncotermForm()  # initialiser le formulaire en cas de GET
 
     context['form'] = form
     return render(request, 'modifier_incoterm.html', context)
@@ -180,3 +180,28 @@ def modifier_fournisseur(request):
 
     context['form'] = form
     return render(request, 'modifier_fournisseur.html', context)
+
+
+@csrf_exempt
+def entree_stock(request,creer_produit):
+    context = {}
+    if request.method == "POST":
+        data = {
+            'code_barre': request.POST.get('code_barre'),
+            'code_article': request.POST.get('code_article'),
+            'designation': request.POST.get('designation'),
+            'gamme': request.POST.get('gamme'),
+            'prix': request.POST.get('prix'),
+            'dim': request.POST.get('dim'),
+            'classe': request.POST.get('classe'),
+            'mention': request.POST.get('mention'),
+            'fournisseur': request.POST.get('fournisseur')  # ID du fournisseur
+        }
+        produit = ProduitService.creer_produit(data)
+        context['produit'] = produit
+        context['message'] = "Produit créé avec succès"
+    
+    fournisseurs = Fournisseur.objects.all()
+    context['fournisseurs'] = fournisseurs
+    
+    return render(request, 'creer_produit.html', context)

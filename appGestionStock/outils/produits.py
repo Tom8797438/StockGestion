@@ -155,5 +155,24 @@ class ProduitService:
             mention=data.get('mention'),
             fournisseur=fournisseur  # Passe l'instance de Fournisseur ici
         )
+        produit = produit_modifier.recuperation_donnee(data , produit)
+        return produit
+    
+    @staticmethod
+    def intégrer_produit(data):
+        fournisseur_id = data.get('fournisseur')
+        fournisseur = Fournisseur.objects.get(id=fournisseur_id)
+        
+        produit_modifier = ProduitModifier(
+            code_barre=data.get('code_barre'),
+            code_article=data.get('code_article'),
+            designation=data.get('designation'),
+            gamme=data.get('gamme'),
+            prix=data.get('prix'),
+            dim=data.get('dim'),
+            classe=data.get('classe'),
+            mention=data.get('mention'),
+            fournisseur=fournisseur  # Passe l'instance de Fournisseur ici
+        )
         produit = produit_modifier.recuperation_donnee(data)
         return produit
